@@ -8,7 +8,7 @@ import tiles.MapTile;
 import utilities.Coordinate;
 import world.WorldSpatial;
 
-public class MyAutoController extends CarController{		
+public class MyAutoController extends CarController{
 		// How many minimum units the wall is away from the player.
 		private int wallSensitivity = 1;
 		
@@ -16,6 +16,8 @@ public class MyAutoController extends CarController{
 		
 		// Car Speed to move at
 		private final int CAR_MAX_SPEED = 1;
+
+		private InternalMap mapConstructor = new InternalMap();
 		
 		public MyAutoController(Car car) {
 			super(car);
@@ -27,6 +29,9 @@ public class MyAutoController extends CarController{
 		public void update() {
 			// Gets what the car can see
 			HashMap<Coordinate, MapTile> currentView = getView();
+
+			//Updates the internal map with car surroundings
+			mapConstructor.updateViewedMap(currentView);
 			
 			// checkStateChange();
 			if(getSpeed() < CAR_MAX_SPEED){       // Need speed to turn and progress toward the exit
