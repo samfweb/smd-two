@@ -22,7 +22,8 @@ public class MyAutoController extends CarController{
 		public MyAutoController(Car car) {
 			super(car);
 		}
-		
+
+
 		// Coordinate initialGuess;
 		// boolean notSouth = true;
 		@Override

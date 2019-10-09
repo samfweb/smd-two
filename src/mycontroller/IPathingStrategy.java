@@ -2,11 +2,12 @@ package mycontroller;
 
 import utilities.Coordinate;
 
+import java.util.Queue;
+
 public interface IPathingStrategy {
 
     /**
-     * Calculates the next Coordinate for the car object, dependent on current strategy
-     * @return
+     * @return a queue of coordinates from start to destination based on internal map, null if no path exists
      */
-    public Coordinate nextCoordinate(Coordinate currentLoc, InternalMap internalMap);
+    public Queue<Coordinate> findPath(Coordinate start, Coordinate destination, InternalMap internalMap);
 }
