@@ -37,13 +37,10 @@ public class InternalMap {
      * @return true if coordinate borders unknown area of map, false otherwise
      */
     public boolean nextToUnknown(Coordinate coordinate) {
-        int x = coordinate.x;
-        int y = coordinate.y;
-        if ( !viewedMap.containsKey(new Coordinate(x+1, y))
-                || !viewedMap.containsKey(new Coordinate(x-1, y))
-                || !viewedMap.containsKey(new Coordinate(x, y+1))
-                || !viewedMap.containsKey(new Coordinate(x, y-1)) ) {
-                    return true;
+        for (Coordinate co : CoordinateUtils.getTouchingCoordinates(coordinate)) {
+            if (!viewedMap.containsKey(co)) {
+                return true;
+            }
         }
         return false;
     }
