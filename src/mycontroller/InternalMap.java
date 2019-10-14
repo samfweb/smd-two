@@ -14,12 +14,24 @@ import java.util.stream.Stream;
 public class InternalMap {
 
     private HashMap<Coordinate, MapTile> viewedMap;
+    private int mapHeight;
+    private int mapWidth;
 
     /**
      * Constructor
      */
-    public InternalMap() {
-        viewedMap = new HashMap<Coordinate, MapTile>();
+    public InternalMap(int mapHeight, int mapWidth) {
+        this.viewedMap = new HashMap<Coordinate, MapTile>();
+        this.mapHeight = mapHeight;
+        this.mapWidth = mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
     }
 
     /**
@@ -63,11 +75,9 @@ public class InternalMap {
 
     /**
      *
-     * @param mapHeight the height of the map in tiles
-     * @param mapWidth the width of the map in tiles
      * @return matrix of MapTile representing the current internal map
      */
-    public MapTile[][] transformMap(int mapWidth, int mapHeight){
+    public MapTile[][] transformMap(){
         MapTile[][] mapTiles = new MapTile[mapHeight][mapWidth];
         for(int row = 0; row < mapHeight; row++){
             for(int col = 0; col < mapWidth; col++){

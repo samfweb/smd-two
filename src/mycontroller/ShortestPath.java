@@ -3,6 +3,7 @@ package mycontroller;
 import utilities.Coordinate;
 import world.WorldSpatial;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
@@ -45,7 +46,7 @@ public class ShortestPath implements IPathingStrategy {
      * @return a queue of coordinates from start to end
      */
     public Queue<Coordinate> buildPath(Coordinate start, Coordinate end) {
-        Queue<Coordinate> path = null;
+        Queue<Coordinate> path = new ArrayDeque<>();
         Coordinate currentCoordinate = end;
         // Add the destination as final coordinate
         path.add(currentCoordinate);
@@ -67,7 +68,7 @@ public class ShortestPath implements IPathingStrategy {
      */
     public boolean exploreBFS(Coordinate start, Coordinate destination, InternalMap internalMap) {
         Coordinate currentLoc = start;
-        Queue<Coordinate> BFSQueue = null;
+        Queue<Coordinate> BFSQueue = new ArrayDeque<>();
         BFSQueue.add(start);
 
         //Points parent of start node to itself

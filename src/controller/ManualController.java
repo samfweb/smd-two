@@ -13,7 +13,7 @@ public class ManualController extends CarController {
 
 	public ManualController(Car car){
 		super(car);
-		this.map = new InternalMap();
+		this.map = new InternalMap(mapWidth(), mapHeight());
 	}
 
 
@@ -22,7 +22,7 @@ public class ManualController extends CarController {
 		Simulation.resetParcels();
 
 		map.updateViewedMap(this.getView());
-		System.out.println(map.createDisplayMap(map.transformMap(this.mapWidth(), this.mapHeight())));
+		System.out.println(map.createDisplayMap(map.transformMap()));
 
 
         for (int k : parcels){

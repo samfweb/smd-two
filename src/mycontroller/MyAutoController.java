@@ -17,7 +17,7 @@ public class MyAutoController extends CarController{
 		// Car Speed to move at
 		private final int CAR_MAX_SPEED = 1;
 
-		private InternalMap mapConstructor = new InternalMap();
+		private InternalMap mapConstructor = new InternalMap(mapWidth(), mapHeight());
 		
 		public MyAutoController(Car car) {
 			super(car);
@@ -33,7 +33,7 @@ public class MyAutoController extends CarController{
 
 			//Updates the internal map with car surroundings
 			mapConstructor.updateViewedMap(currentView);
-			System.out.println(mapConstructor.createDisplayMap(mapConstructor.transformMap(this.mapWidth(), this.mapHeight())));
+			System.out.println(mapConstructor.createDisplayMap(mapConstructor.transformMap()));
 
 			
 			// checkStateChange();

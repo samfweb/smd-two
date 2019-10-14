@@ -9,5 +9,5 @@ public interface IPathingStrategy {
     /**
      * @return a queue of coordinates from start to destination based on internal map, null if no path exists
      */
-    public Queue<Coordinate> findPath(Coordinate start, Coordinate destination, InternalMap internalMap);
+    Queue<Coordinate> findPath(Coordinate start, Coordinate destination, InternalMap internalMap);
 }
