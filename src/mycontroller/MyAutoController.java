@@ -33,6 +33,8 @@ public class MyAutoController extends CarController{
 
 			//Updates the internal map with car surroundings
 			mapConstructor.updateViewedMap(currentView);
+			System.out.println(mapConstructor.createDisplayMap(mapConstructor.transformMap(this.mapWidth(), this.mapHeight())));
+
 			
 			// checkStateChange();
 			if(getSpeed() < CAR_MAX_SPEED){       // Need speed to turn and progress toward the exit
