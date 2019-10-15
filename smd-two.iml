@@ -4,10 +4,6 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/assets/log" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/assets/sprites" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/assets/tilesets" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

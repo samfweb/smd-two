@@ -1,5 +1,6 @@
 package mycontroller;
 
+import org.lwjgl.Sys;
 import utilities.Coordinate;
 import world.WorldSpatial;
 
@@ -46,18 +47,23 @@ public class ShortestPath implements IPathingStrategy {
      * @return a queue of coordinates from start to end
      */
     public Queue<Coordinate> buildPath(Coordinate start, Coordinate end) {
+        Deque<Coordinate> tempPath = new ArrayDeque<>();
         Deque<Coordinate> path = new ArrayDeque<>();
         Coordinate currentCoordinate = end;
         // Add the destination as final coordinate
-        path.add(currentCoordinate);
+        tempPath.add(currentCoordinate);
 
 
 
         //Until the head of queue is the start loc
-        while (!path.getLast().equals(start)) {
+        while (!tempPath.getLast().equals(start)) {
             currentCoordinate = parentCoordinate.get(currentCoordinate);
-            path.add(currentCoordinate);
+            tempPath.add(currentCoordinate);
         }
+        while (!tempPath.isEmpty()) {
+            path.add(tempPath.removeLast());
+        }
+
 
         return path;
     }
@@ -95,6 +101,7 @@ public class ShortestPath implements IPathingStrategy {
         }
         return false;
     }
+
 
 
 }

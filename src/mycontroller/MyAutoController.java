@@ -1,5 +1,6 @@
 package mycontroller;
 
+import com.badlogic.gdx.math.Interpolation;
 import controller.CarController;
 import world.Car;
 import java.util.HashMap;
@@ -21,6 +22,8 @@ public class MyAutoController extends CarController{
 		private final int CAR_MAX_SPEED = 1;
 
 		private InternalMap mapConstructor = new InternalMap(mapWidth(), mapHeight());
+
+		private IPathConverter carPathConverter = new CarPathConvertor();
 		
 		public MyAutoController(Car car) {
 			super(car);
@@ -41,32 +44,33 @@ public class MyAutoController extends CarController{
 
 
 			Queue<Coordinate> path = method.generatePathing(new Coordinate(getPosition()), new Coordinate(getPosition()), mapConstructor);
+			path.forEach((e) -> System.out.println(e.toString()));
+//			System.out.println("current position = " + path.peek());
+			Command nextCommand = carPathConverter.convertNextMove(path, getOrientation(), getSpeed());
 
-			Coordinate nextPoint = path.poll();
-
-			while (nextPoint != null){
-                nextPoint = path.poll();
-            }
-
-			// checkStateChange();
-			if(getSpeed() < CAR_MAX_SPEED){       // Need speed to turn and progress toward the exit
-				applyForwardAcceleration();   // Tough luck if there's a wall in the way
-			}
-			if (isFollowingWall) {
-				// If wall no longer on left, turn left
-				if(!checkFollowingWall(getOrientation(), currentView)) {
-					turnLeft();
-				} else {
-					// If wall on left and wall straight ahead, turn right
-					if(checkWallAhead(getOrientation(), currentView)) {
-						turnRight();
-					}
-				}
+			if (getSpeed() == 0){
+				applyForwardAcceleration();
 			} else {
-				// Start wall-following (with wall on left) as soon as we see a wall straight ahead
-				if(checkWallAhead(getOrientation(),currentView)) {
-					turnRight();
-					isFollowingWall = true;
+				switch (nextCommand) {
+					case ACCELERATE_FORWARD:
+						if(getSpeed()==0){
+							applyForwardAcceleration();
+						} else if ( getSpeed() == -1){
+							applyForwardAcceleration();
+							applyForwardAcceleration();
+						} else
+						applyForwardAcceleration();
+					case ACCELERATE_BACKWARDS:
+						if(getSpeed()==1){
+							applyReverseAcceleration();
+							applyReverseAcceleration();
+						} else if (getSpeed()==0){
+							applyReverseAcceleration();
+						}
+					case TURN_RIGHT:
+						turnRight();
+					case TURN_LEFT:
+						turnLeft();
 				}
 			}
 		}

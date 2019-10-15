@@ -8,5 +8,6 @@ import java.util.Queue;
 
 public interface IPathConverter {
 
-    Command convertNextMove(Queue<Coordinate> path, WorldSpatial.Direction direction, int velocity);
+    Command convertNextMove(Queue<Coordinate> path, WorldSpatial.Direction direction, float velocity);
+
 }
