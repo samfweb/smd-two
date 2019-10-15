@@ -2,6 +2,7 @@ package mycontroller;
 
 import controller.CarController;
 import tiles.MapTile;
+import tiles.TrapTile;
 import utilities.Coordinate;
 
 import java.util.*;
@@ -40,9 +41,7 @@ public class InternalMap {
      */
     public void updateViewedMap(HashMap<Coordinate, MapTile> map) {
         for (Coordinate key : map.keySet()) {
-            if (!viewedMap.containsKey(key)) {
-                viewedMap.put(key, map.get(key));
-            }
+            viewedMap.put(key, map.get(key));
         }
     }
 
@@ -120,6 +119,22 @@ public class InternalMap {
         // close the row with a bar
         rowString.append("|\n");
         return rowString.toString();
+    }
+
+     public <T extends TrapTile> List<Coordinate> discoveredTraps(String trapType){
+        return viewedMap
+                .keySet()
+                .stream()
+                .filter(coordinate -> viewedMap.get(coordinate).isType(MapTile.Type.TRAP))
+                .collect(Collectors.toList());
+     }
+
+     public List<Coordinate> discoveredTypes(MapTile.Type tileType){
+         return viewedMap
+                 .keySet()
+                 .stream()
+                 .filter(coordinate -> viewedMap.get(coordinate).getType().equals(tileType))
+                 .collect(Collectors.toList());
     }
 }
 

@@ -28,10 +28,10 @@ public class ShortestPath implements IPathingStrategy {
      * @return the path if it exists, otherwise null
      */
     @Override
-    public Queue<Coordinate> findPath(Coordinate start, Coordinate destination, InternalMap internalMap) {
+    public Deque<Coordinate> findPath(Coordinate start, Coordinate destination, InternalMap internalMap) {
         //If successful path found
         if (exploreBFS(start, destination, internalMap)) {
-            Queue<Coordinate> path = buildPath(start, destination);
+            Deque<Coordinate> path = buildPath(start, destination);
             parentCoordinate = new HashMap<>();
             return path;
         }
@@ -45,18 +45,18 @@ public class ShortestPath implements IPathingStrategy {
      * @param end destination
      * @return a queue of coordinates from start to end
      */
-    public Queue<Coordinate> buildPath(Coordinate start, Coordinate end) {
+    public Deque<Coordinate> buildPath(Coordinate start, Coordinate end) {
         Deque<Coordinate> path = new ArrayDeque<>();
         Coordinate currentCoordinate = end;
         // Add the destination as final coordinate
-        path.add(currentCoordinate);
+        path.addLast(currentCoordinate);
 
 
 
         //Until the head of queue is the start loc
         while (!path.getLast().equals(start)) {
             currentCoordinate = parentCoordinate.get(currentCoordinate);
-            path.add(currentCoordinate);
+            path.addLast(currentCoordinate);
         }
 
         return path;

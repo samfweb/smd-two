@@ -12,7 +12,7 @@ public class ExploreMethod extends MethodTemplate {
     }
 
     @Override
-    public Queue<Coordinate> generatePathing(Coordinate startPosition, Coordinate targetPosition, InternalMap internalMap) {
+    public Deque<Coordinate> generatePathing(Coordinate startPosition, Coordinate targetPosition, InternalMap internalMap) {
         Coordinate optimalCoordinate = findOptimalCoordinate(internalMap, startPosition);
         return optimalCoordinate != null ?
                 getPathingStrategy().findPath(startPosition, optimalCoordinate, internalMap) :
@@ -28,7 +28,8 @@ public class ExploreMethod extends MethodTemplate {
         // sort the list, via comparison of path distance between two points -> in ascending fashion
         coordinateOptions.sort(Comparator.comparingInt(coordinate -> getDistance(position, coordinate, internalMap)));
         // return the head of the options list
-        System.out.println(coordinateOptions.get(0));
+        System.out.println("Final Destination: " + coordinateOptions.get(0));
+
         return coordinateOptions.get(0);
     }
 
@@ -48,7 +49,11 @@ public class ExploreMethod extends MethodTemplate {
     }
 
     private int getDistance(Coordinate startCoordinate, Coordinate targetCoordinate, InternalMap internalMap) {
-        int distance = getPathingStrategy().findPath(startCoordinate, targetCoordinate, internalMap).size();
+        Deque<Coordinate> possiblePath = getPathingStrategy().findPath(startCoordinate, targetCoordinate, internalMap);
+        int distance = 0;
+        if (possiblePath != null){
+            distance = possiblePath.size();
+        }
         return distance > 0 ? distance : internalMap.getMapWidth() * internalMap.getMapHeight();
     }
 }
