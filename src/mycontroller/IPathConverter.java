@@ -1,12 +1,12 @@
 package mycontroller;
 
 import utilities.Coordinate;
+import world.World;
 import world.WorldSpatial;
 
 import java.util.Queue;
 
 public interface IPathConverter {
 
-    Queue<Command> convertPath(Queue<Coordinate> path, WorldSpatial.Direction direction);
-
+    Command convertNextMove(Queue<Coordinate> path, WorldSpatial.Direction direction, int velocity);
 }

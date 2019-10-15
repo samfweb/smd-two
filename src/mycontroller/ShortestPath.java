@@ -3,10 +3,7 @@ package mycontroller;
 import utilities.Coordinate;
 import world.WorldSpatial;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Directed point to point pathing strategy.
@@ -34,8 +31,11 @@ public class ShortestPath implements IPathingStrategy {
     public Queue<Coordinate> findPath(Coordinate start, Coordinate destination, InternalMap internalMap) {
         //If successful path found
         if (exploreBFS(start, destination, internalMap)) {
-            return buildPath(start, destination);
+            Queue<Coordinate> path = buildPath(start, destination);
+            parentCoordinate = new HashMap<>();
+            return path;
         }
+        parentCoordinate = new HashMap<>();
         return null;
     }
 
@@ -46,13 +46,15 @@ public class ShortestPath implements IPathingStrategy {
      * @return a queue of coordinates from start to end
      */
     public Queue<Coordinate> buildPath(Coordinate start, Coordinate end) {
-        Queue<Coordinate> path = new ArrayDeque<>();
+        Deque<Coordinate> path = new ArrayDeque<>();
         Coordinate currentCoordinate = end;
         // Add the destination as final coordinate
         path.add(currentCoordinate);
 
+
+
         //Until the head of queue is the start loc
-        while (path.element() != start) {
+        while (!path.getLast().equals(start)) {
             currentCoordinate = parentCoordinate.get(currentCoordinate);
             path.add(currentCoordinate);
         }
@@ -75,6 +77,7 @@ public class ShortestPath implements IPathingStrategy {
         parentCoordinate.put(currentLoc, start);
 
         while (!BFSQueue.isEmpty()) {
+
             currentLoc = BFSQueue.remove();
             if (currentLoc.equals(destination)) {
                 return true;

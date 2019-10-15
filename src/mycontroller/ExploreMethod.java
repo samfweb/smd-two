@@ -28,6 +28,7 @@ public class ExploreMethod extends MethodTemplate {
         // sort the list, via comparison of path distance between two points -> in ascending fashion
         coordinateOptions.sort(Comparator.comparingInt(coordinate -> getDistance(position, coordinate, internalMap)));
         // return the head of the options list
+        System.out.println(coordinateOptions.get(0));
         return coordinateOptions.get(0);
     }
 
@@ -39,6 +40,7 @@ public class ExploreMethod extends MethodTemplate {
                 Coordinate coordinate = new Coordinate(x, y);
                 if (!internalMap.isBlocked(coordinate) && internalMap.nextToUnknown(coordinate)){
                     coordinateOptions.add(coordinate);
+
                 }
             }
         }

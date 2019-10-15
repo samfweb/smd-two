@@ -10,22 +10,13 @@ public class CarPathConvertor implements IPathConverter{
 
     public static HashMap<CoordinateDirection, Command> commandMap;
 
-    private static void fillCommandMap(){
-        commandMap = new HashMap<>();
-    }
-
     public CarPathConvertor() {
     }
 
-
     @Override
-    public Queue<Command> convertPath(Queue<Coordinate> path, WorldSpatial.Direction direction) {
-        return null;
-    }
+    public Command convertNextMove(Queue<Coordinate> path, WorldSpatial.Direction direction, int velocity) {
 
 
-    private Command convertCoordinates(Coordinate start, Coordinate next){
-        Coordinate difference = coordinateDifference(start, next);
         return null;
     }
 

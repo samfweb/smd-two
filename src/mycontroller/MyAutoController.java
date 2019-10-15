@@ -3,6 +3,7 @@ package mycontroller;
 import controller.CarController;
 import world.Car;
 import java.util.HashMap;
+import java.util.Queue;
 
 import tiles.MapTile;
 import utilities.Coordinate;
@@ -11,6 +12,8 @@ import world.WorldSpatial;
 public class MyAutoController extends CarController{
 		// How many minimum units the wall is away from the player.
 		private int wallSensitivity = 1;
+
+		private MethodTemplate method;
 		
 		private boolean isFollowingWall = false; // This is set to true when the car starts sticking to a wall.
 		
@@ -21,6 +24,7 @@ public class MyAutoController extends CarController{
 		
 		public MyAutoController(Car car) {
 			super(car);
+			this.method = new ExploreMethod();
 		}
 
 
@@ -35,7 +39,15 @@ public class MyAutoController extends CarController{
 			mapConstructor.updateViewedMap(currentView);
 			System.out.println(mapConstructor.createDisplayMap(mapConstructor.transformMap()));
 
-			
+
+			Queue<Coordinate> path = method.generatePathing(new Coordinate(getPosition()), new Coordinate(getPosition()), mapConstructor);
+
+			Coordinate nextPoint = path.poll();
+
+			while (nextPoint != null){
+                nextPoint = path.poll();
+            }
+
 			// checkStateChange();
 			if(getSpeed() < CAR_MAX_SPEED){       // Need speed to turn and progress toward the exit
 				applyForwardAcceleration();   // Tough luck if there's a wall in the way
