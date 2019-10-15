@@ -1,8 +1,10 @@
 package mycontroller;
 
-import tiles.MapTile;
-import utilities.Coordinate;
+/**
+ * Pathing Method that generates and returns a path to the nearest tile bordering an unexplored tile
+ */
 
+import utilities.Coordinate;
 import java.util.*;
 
 public class ExploreMethod extends MethodTemplate {
@@ -11,6 +13,13 @@ public class ExploreMethod extends MethodTemplate {
         super();
     }
 
+    /**
+     *
+     * @param startPosition the first position in the path
+     * @param targetPosition the end position in any path generated
+     * @param internalMap the current map representing accessible tiles
+     * @return Deque<Coordinate> A list of coordinates representing the shortest valid path to the targetPosition
+     */
     @Override
     public Deque<Coordinate> generatePathing(Coordinate startPosition, Coordinate targetPosition, InternalMap internalMap) {
         Coordinate optimalCoordinate = findOptimalCoordinate(internalMap, startPosition);
@@ -20,6 +29,12 @@ public class ExploreMethod extends MethodTemplate {
     }
 
 
+    /**
+     *
+     * @param internalMap
+     * @param position
+     * @return
+     */
     private Coordinate findOptimalCoordinate(InternalMap internalMap, Coordinate position){
         List<Coordinate> coordinateOptions = getAvailableCoordinates(
                 internalMap.getMapWidth(),
@@ -28,12 +43,18 @@ public class ExploreMethod extends MethodTemplate {
         // sort the list, via comparison of path distance between two points -> in ascending fashion
         coordinateOptions.sort(Comparator.comparingInt(coordinate -> getDistance(position, coordinate, internalMap)));
         // return the head of the options list
-        System.out.println("Final Destination: " + coordinateOptions.get(0));
 
         return coordinateOptions.get(0);
     }
 
 
+    /**
+     *
+     * @param mapHeight
+     * @param mapWidth
+     * @param internalMap
+     * @return
+     */
     private List<Coordinate> getAvailableCoordinates(int mapHeight, int mapWidth, InternalMap internalMap){
         List<Coordinate> coordinateOptions = new ArrayList<>();
         for(int y = 0; y < mapHeight; y++) {
@@ -48,12 +69,15 @@ public class ExploreMethod extends MethodTemplate {
         return coordinateOptions;
     }
 
+    /**
+     *
+     * @param startCoordinate
+     * @param targetCoordinate
+     * @param internalMap
+     * @return
+     */
     private int getDistance(Coordinate startCoordinate, Coordinate targetCoordinate, InternalMap internalMap) {
         Deque<Coordinate> possiblePath = getPathingStrategy().findPath(startCoordinate, targetCoordinate, internalMap);
-        int distance = 0;
-        if (possiblePath != null){
-            distance = possiblePath.size();
-        }
-        return distance > 0 ? distance : internalMap.getMapWidth() * internalMap.getMapHeight();
+        return possiblePath != null ? possiblePath.size() : internalMap.getMapWidth() * internalMap.getMapHeight();
     }
 }
