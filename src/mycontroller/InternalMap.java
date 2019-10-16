@@ -121,11 +121,10 @@ public class InternalMap {
 
     /**
      *
-     * @param trapType
-     * @param <T>
-     * @return
+     * @param trapType the type of the trap to check
+     * @return List of coordinates corresponding to the trap type seen
      */
-     public <T extends TrapTile> List<Coordinate> discoveredTraps(String trapType){
+     public List<Coordinate> discoveredTraps(String trapType){
         return viewedMap
                 .keySet()
                 .stream()
@@ -135,8 +134,8 @@ public class InternalMap {
 
     /**
      *
-     * @param tileType
-     * @return
+     * @param tileType the type of tile
+     * @return List of coordinates corresponding to the tile seen
      */
      public List<Coordinate> discoveredTypes(MapTile.Type tileType){
          return viewedMap

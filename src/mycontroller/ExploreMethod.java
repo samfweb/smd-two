@@ -31,9 +31,9 @@ public class ExploreMethod extends MethodTemplate {
 
     /**
      *
-     * @param internalMap
-     * @param position
-     * @return
+     * @param internalMap the current map representing accessible tiles
+     * @param position the Coordinate to compare every other coordinate against
+     * @return Optimal coordinate to path to
      */
     private Coordinate findOptimalCoordinate(InternalMap internalMap, Coordinate position){
         List<Coordinate> coordinateOptions = getAvailableCoordinates(
@@ -50,10 +50,10 @@ public class ExploreMethod extends MethodTemplate {
 
     /**
      *
-     * @param mapHeight
-     * @param mapWidth
-     * @param internalMap
-     * @return
+     * @param mapHeight the height of the map in tiles
+     * @param mapWidth the width of the map in tiles
+     * @param internalMap the current map representing accessible tiles
+     * @return A list of the available Coordinates which are adjacent to unexplored areas & are not walls
      */
     private List<Coordinate> getAvailableCoordinates(int mapHeight, int mapWidth, InternalMap internalMap){
         List<Coordinate> coordinateOptions = new ArrayList<>();
@@ -71,10 +71,10 @@ public class ExploreMethod extends MethodTemplate {
 
     /**
      *
-     * @param startCoordinate
-     * @param targetCoordinate
-     * @param internalMap
-     * @return
+     * @param startCoordinate the first position in the path
+     * @param targetCoordinate the end position in any path generated
+     * @param internalMap  the current map representing accessible tiles
+     * @return distance of a path in tiles
      */
     private int getDistance(Coordinate startCoordinate, Coordinate targetCoordinate, InternalMap internalMap) {
         Deque<Coordinate> possiblePath = getPathingStrategy().findPath(startCoordinate, targetCoordinate, internalMap);
