@@ -1,17 +1,26 @@
 package mycontroller;
 
+/**
+ * Class that converts A Path into Commands
+ */
+
 import utilities.Coordinate;
 import world.WorldSpatial;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Queue;
 
 public class CarPathConvertor implements IPathConverter{
 
     public CarPathConvertor() {
     }
 
+    /**
+     *
+     * @param currentPosition 
+     * @param nextPosition
+     * @param direction
+     * @param velocity
+     * @return
+     */
     @Override
     public Command convertNextMove(Coordinate currentPosition, Coordinate nextPosition, WorldSpatial.Direction direction, float velocity) {
         assert currentPosition != null;
@@ -25,6 +34,13 @@ public class CarPathConvertor implements IPathConverter{
 
     }
 
+    /**
+     *
+     * @param currentDirection
+     * @param newDirection
+     * @param velocity
+     * @return
+     */
     private Command translateDirection(WorldSpatial.Direction currentDirection, WorldSpatial.Direction newDirection, float velocity){
         WorldSpatial.Direction translatedDirection = CoordinateUtils.translateRotation(currentDirection, newDirection);
         switch(translatedDirection){
@@ -40,6 +56,12 @@ public class CarPathConvertor implements IPathConverter{
     }
 
 
+    /**
+     *
+     * @param command
+     * @param velocity
+     * @return
+     */
     private Command handleCommand(Command command, float velocity){
         if (velocity <= 0){
             if (command.equals(Command.TURN_LEFT) || command.equals(Command.TURN_RIGHT)){
@@ -52,6 +74,12 @@ public class CarPathConvertor implements IPathConverter{
         return command;
     }
 
+    /**
+     *
+     * @param coordinateA
+     * @param coordinateB
+     * @return
+     */
     private Coordinate coordinateDifference(Coordinate coordinateA, Coordinate coordinateB){
         return new Coordinate((coordinateB.x - coordinateA.x), (coordinateB.y - coordinateA.y));
     }

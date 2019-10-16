@@ -21,9 +21,6 @@ public class ManualController extends CarController {
 		Set<Integer> parcels = Simulation.getParcels();
 		Simulation.resetParcels();
 
-		map.updateViewedMap(this.getView());
-		System.out.println(map.createDisplayMap(map.transformMap()));
-
 
         for (int k : parcels){
 		     switch (k){

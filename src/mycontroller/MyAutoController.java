@@ -24,48 +24,39 @@ public class MyAutoController extends CarController {
 
 	public MyAutoController(Car car) {
 		super(car);
+		// always begin with the explore method
 		this.method = new ExploreMethod();
 
 	}
 
-
-	// Coordinate initialGuess;
-	// boolean notSouth = true;
 	@Override
 	public void update() {
-		System.out.println("|********************************************************************|");
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
 		//Updates the internal map with car surroundings
 		mapConstructor.updateViewedMap(currentView);
-		System.out.println(mapConstructor.createDisplayMap(mapConstructor.transformMap()));
+		// checks our current method & updates our strategy if fitting
 		checkMap(mapConstructor);
+		// Generates a path to the next position
 		Deque<Coordinate> path = method.generatePathing(new Coordinate(getPosition()), targetPosition, mapConstructor);
 		Coordinate currentPosition = path.pollLast();
 		Coordinate nextPosition = path.pollLast();
-
-
-		System.out.println("Current Position: " + currentPosition + " Next Position: " + nextPosition);
-
+		// Converts a move into "Car Language"
 		Command nextCommand = pathConverter.convertNextMove(currentPosition, nextPosition, getOrientation(), getSpeed());
-		System.out.println("METHOD: " + method.toString());
-
+		// Executes the car command specified
 		executeCommand(nextCommand);
-		System.out.println(nextCommand);
-		System.out.println("|********************************************************************|");
-
-
-
 	}
 
+	/**
+	 * Check if we have met the package requirements
+	 * @return boolean: True -> No more parcels to collect, False -> More parcels to collect
+	 */
 	private boolean checkRequirements() {
 		return numParcels() == numParcelsFound();
 	}
 
 	// really could use a factory to instantiate these
 	private void checkMap(InternalMap internalMap){
-		System.out.println(internalMap.discoveredTypes(MapTile.Type.FINISH).size());
-		System.out.println();
 		if (checkRequirements() && checkTilePaths(internalMap.discoveredTypes(MapTile.Type.FINISH), currentPosition(getPosition()))){
 			this.method = new DirectMethod();
 		}
@@ -90,14 +81,30 @@ public class MyAutoController extends CarController {
 		return false;
 	}
 
+
+	/**
+	 * Helper Constructor for Coordinate(current position)
+	 *
+	 * @param position current position as given by system interface
+	 * @return Coordinate representation of current position
+	 */
 	private Coordinate currentPosition(String position){
 		return new Coordinate(position);
 	}
 
+	/**
+	 * Safety Check the Path Presented
+	 * @param path deque of coordinates to be tested
+	 * @return True: safe path, False: unsafe path
+	 */
 	private boolean safePath(Deque<Coordinate> path){
 		return (path != null && path.size() > 1);
 	}
 
+	/**
+	 * Converts Command Types into Method Calls for the Car Movement
+	 * @param command current command to call
+	 */
 	private void executeCommand(Command command){
 		switch (command){
 			case ACCELERATE_BACKWARDS:

@@ -13,8 +13,18 @@ import java.util.Map;
  */
 public class CoordinateUtils {
 
+    /**
+     * The empty coordinate that represents no translation (0,0) -> stationary
+     */
     private static final Coordinate EPSILON_VECTOR = new Coordinate(0,0);
 
+    /**
+     * Direction Map,
+     *  -> where North represents a increase in the Y Axis
+     *  -> where South represents a decrease in the Y Axis
+     *  -> where East represents a increase in the X Axis
+     *  -> where West represents a decrease in the X Axis
+     */
     private static final Map<Coordinate, WorldSpatial.Direction> DIRECTION_MAP;
     static{
         HashMap<Coordinate, WorldSpatial.Direction> temporaryDirection = new HashMap<>();
@@ -25,6 +35,9 @@ public class CoordinateUtils {
         DIRECTION_MAP = temporaryDirection;
     }
 
+    /**
+     * Direction Array to use for rotations, following a clockwise protocol
+     */
     private static final WorldSpatial.Direction[] DIRECTION_ARRAY = {
             WorldSpatial.Direction.NORTH,
             WorldSpatial.Direction.EAST,
@@ -32,6 +45,12 @@ public class CoordinateUtils {
             WorldSpatial.Direction.WEST,
     };
 
+    /**
+     *
+     * @param translation the index offset to translate our array
+     * @param direction the desired direction to finish at
+     * @return the translated desired direction
+     */
     private static WorldSpatial.Direction getTranslatedIndex(int translation, WorldSpatial.Direction direction){
         int indexOfDirection = Arrays.asList(DIRECTION_ARRAY).indexOf(direction);
         int newIndex = indexOfDirection + translation;
@@ -40,15 +59,24 @@ public class CoordinateUtils {
 
     }
 
+    /**
+     * Returns the translated direction, which is calculated relative to our current direction e.g.
+     *  -> Facing West, wish to end up facing North
+     *  -> We have a relative direction of East as a result
+     *
+     * @param translation the original direction of the vehicle
+     * @param direction the desired direction to finish at
+     * @return the translated desired direction, relative to the translation
+     */
     public static WorldSpatial.Direction translateRotation(WorldSpatial.Direction translation, WorldSpatial.Direction direction){
         System.out.println("Current Orientation: " + translation + " Desired Orientation: " + direction);
         switch(translation){
             case EAST:
-                return getTranslatedIndex(-1, direction);
+                return getTranslatedIndex(-1, direction); // move one rotation clockwise
             case SOUTH:
-                return getTranslatedIndex(-2, direction);
+                return getTranslatedIndex(-2, direction); // move two rotations clockwise
             case WEST:
-                return getTranslatedIndex(-3, direction);
+                return getTranslatedIndex(-3, direction); // move three rotations clockwise
             default:
                 return direction;
         }
@@ -87,6 +115,12 @@ public class CoordinateUtils {
     }
 
 
+    /**
+     * Wraps the DIRECTION_MAP to translate vectors into directions
+     *
+     * @param vectorCoordinate The applicative coordinate representing delta between two coordinates
+     * @return the corresponding WorldSpatial.Direction
+     */
     public static WorldSpatial.Direction translateVector(Coordinate vectorCoordinate){
         return vectorCoordinate != EPSILON_VECTOR ? DIRECTION_MAP.get(vectorCoordinate) : null;
     }
