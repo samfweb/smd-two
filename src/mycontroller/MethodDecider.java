@@ -32,7 +32,7 @@ public class MethodDecider {
 
     /**
      * Decides which pathing method to use
-     * @param internalMap
+     * @param internalMap the map to decide the method from
      */
     public MethodTemplate decideMethod(InternalMap internalMap){
         Coordinate currentPosition = currentPosition(controller.getPosition());
@@ -62,7 +62,7 @@ public class MethodDecider {
      * @param candidateTiles the candidate tiles
      * @param internalMap the internal map
      * @param position the position
-     * @return
+     * @return true if it exists, otherwise false
      */
     private boolean checkTilePaths(List<Coordinate> candidateTiles, InternalMap internalMap, Coordinate position){
         if(candidateTiles != null && candidateTiles.size() > 0) {
