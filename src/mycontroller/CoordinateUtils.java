@@ -64,21 +64,21 @@ public class CoordinateUtils {
      *  -> Facing West, wish to end up facing North
      *  -> We have a relative direction of East as a result
      *
-     * @param translation the original direction of the vehicle
-     * @param direction the desired direction to finish at
+     * @param current the original direction of the vehicle
+     * @param desired the desired direction to finish at
      * @return the translated desired direction, relative to the translation
      */
-    public static WorldSpatial.Direction translateRotation(WorldSpatial.Direction translation, WorldSpatial.Direction direction){
-        System.out.println("Current Orientation: " + translation + " Desired Orientation: " + direction);
-        switch(translation){
+    public static WorldSpatial.Direction translateRotation(WorldSpatial.Direction current, WorldSpatial.Direction desired){
+        System.out.println("Current Orientation: " + current + " Desired Orientation: " + desired);
+        switch(current){
             case EAST:
-                return getTranslatedIndex(-1, direction); // move one rotation clockwise
+                return getTranslatedIndex(-1, desired); // move one rotation clockwise
             case SOUTH:
-                return getTranslatedIndex(-2, direction); // move two rotations clockwise
+                return getTranslatedIndex(-2, desired); // move two rotations clockwise
             case WEST:
-                return getTranslatedIndex(-3, direction); // move three rotations clockwise
+                return getTranslatedIndex(-3, desired); // move three rotations clockwise
             default:
-                return direction;
+                return desired;
         }
     }
 

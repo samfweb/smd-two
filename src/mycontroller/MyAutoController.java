@@ -22,7 +22,7 @@ public class MyAutoController extends CarController {
 
 	private IPathConverter pathConverter = new CarPathConvertor();
 
-	private MethodDecider methodDecider = new MethodDecider(this);
+	private MethodDecider methodDecider = new MethodDecider();
 
 	/**
 	 * Constructor
@@ -45,7 +45,7 @@ public class MyAutoController extends CarController {
 		//Updates the internal map with car surroundings
 		mapConstructor.updateViewedMap(currentView);
 		// checks our current method & updates our strategy if fitting
-		this.method = methodDecider.decideMethod(mapConstructor);
+		this.method = methodDecider.decideMethod(mapConstructor, this);
 		// Generates a path to the next position
 		Deque<Coordinate> path = method.generatePathing(new Coordinate(getPosition()), targetPosition, mapConstructor);
 		Coordinate currentPosition = path.pollLast();

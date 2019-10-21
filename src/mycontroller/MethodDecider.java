@@ -13,14 +13,12 @@ import java.util.List;
 public class MethodDecider {
 
     private MethodFactory methodFactory;
-    private MyAutoController controller;
 
     /**
      * Constructor
      */
-    public MethodDecider(MyAutoController carController) {
+    public MethodDecider() {
         this.methodFactory = MethodFactory.getInstance();
-        this.controller = carController;
     }
 
     /**
@@ -34,16 +32,15 @@ public class MethodDecider {
      * Decides which pathing method to use
      * @param internalMap the map to decide the method from
      */
-    public MethodTemplate decideMethod(InternalMap internalMap){
+    public MethodTemplate decideMethod(InternalMap internalMap, MyAutoController controller){
         Coordinate currentPosition = currentPosition(controller.getPosition());
-        if (checkRequirements()
-                && checkTilePaths(internalMap.discoveredTypes(MapTile.Type.FINISH), internalMap, currentPosition)){
+        if (checkRequirements(controller)
+                && checkTilePaths(internalMap.discoveredTypes(MapTile.Type.FINISH), internalMap, currentPosition, controller)){
             return methodFactory.makeDirectMethod();
         }
-        else if (checkTilePaths(internalMap.discoveredTraps("parcel"), internalMap, currentPosition)){
+        else if (checkTilePaths(internalMap.discoveredTraps("parcel"), internalMap, currentPosition, controller)){
             return methodFactory.makeDirectMethod();
         } else {
-            //--------IF BREAKS CHECK HERE
             controller.setTarget(currentPosition);
             return methodFactory.makeExploreMethod();
         }
@@ -53,7 +50,7 @@ public class MethodDecider {
      * Check if we have met the package requirements
      * @return boolean: True -> No more parcels to collect, False -> More parcels to collect
      */
-    private boolean checkRequirements() {
+    private boolean checkRequirements(MyAutoController controller) {
         return controller.numParcels() == controller.numParcelsFound();
     }
 
@@ -64,7 +61,7 @@ public class MethodDecider {
      * @param position the position
      * @return true if it exists, otherwise false
      */
-    private boolean checkTilePaths(List<Coordinate> candidateTiles, InternalMap internalMap, Coordinate position){
+    private boolean checkTilePaths(List<Coordinate> candidateTiles, InternalMap internalMap, Coordinate position, MyAutoController controller){
         if(candidateTiles != null && candidateTiles.size() > 0) {
             for (Coordinate candidate : candidateTiles) {
                 MethodTemplate candidateMethod = methodFactory.makeDirectMethod();
