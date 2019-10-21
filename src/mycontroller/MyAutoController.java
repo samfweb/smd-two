@@ -22,13 +22,22 @@ public class MyAutoController extends CarController {
 
 	private IPathConverter pathConverter = new CarPathConvertor();
 
+	private MethodDecider methodDecider = new MethodDecider(this);
+
+	/**
+	 * Constructor
+	 * @param car the car to control
+	 */
 	public MyAutoController(Car car) {
 		super(car);
 		// always begin with the explore method
-		this.method = new ExploreMethod();
+		this.method = methodDecider.explore();
 
 	}
 
+	/**
+	 * Updates the car
+	 */
 	@Override
 	public void update() {
 		// Gets what the car can see
@@ -36,7 +45,7 @@ public class MyAutoController extends CarController {
 		//Updates the internal map with car surroundings
 		mapConstructor.updateViewedMap(currentView);
 		// checks our current method & updates our strategy if fitting
-		checkMap(mapConstructor);
+		this.method = methodDecider.decideMethod(mapConstructor);
 		// Generates a path to the next position
 		Deque<Coordinate> path = method.generatePathing(new Coordinate(getPosition()), targetPosition, mapConstructor);
 		Coordinate currentPosition = path.pollLast();
@@ -45,60 +54,6 @@ public class MyAutoController extends CarController {
 		Command nextCommand = pathConverter.convertNextMove(currentPosition, nextPosition, getOrientation(), getSpeed());
 		// Executes the car command specified
 		executeCommand(nextCommand);
-	}
-
-	/**
-	 * Check if we have met the package requirements
-	 * @return boolean: True -> No more parcels to collect, False -> More parcels to collect
-	 */
-	private boolean checkRequirements() {
-		return numParcels() == numParcelsFound();
-	}
-
-	// really could use a factory to instantiate these
-	private void checkMap(InternalMap internalMap){
-		if (checkRequirements() && checkTilePaths(internalMap.discoveredTypes(MapTile.Type.FINISH), currentPosition(getPosition()))){
-			this.method = new DirectMethod();
-		}
-		else if (checkTilePaths(internalMap.discoveredTraps("parcel"), currentPosition(getPosition()))){
-			this.method = new DirectMethod();
-		} else {
-			targetPosition = new Coordinate(getPosition());
-			this.method = new ExploreMethod();
-		}
-	}
-
-	private boolean checkTilePaths(List<Coordinate> candidateTiles, Coordinate position){
-		if(candidateTiles != null && candidateTiles.size() > 0) {
-			for (Coordinate candidate : candidateTiles) {
-				if (safePath(new DirectMethod().generatePathing(position, candidate, mapConstructor))) {
-					targetPosition = candidate;
-					method = new DirectMethod();
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-
-	/**
-	 * Helper Constructor for Coordinate(current position)
-	 *
-	 * @param position current position as given by system interface
-	 * @return Coordinate representation of current position
-	 */
-	private Coordinate currentPosition(String position){
-		return new Coordinate(position);
-	}
-
-	/**
-	 * Safety Check the Path Presented
-	 * @param path deque of coordinates to be tested
-	 * @return True: safe path, False: unsafe path
-	 */
-	private boolean safePath(Deque<Coordinate> path){
-		return (path != null && path.size() > 1);
 	}
 
 	/**
@@ -124,5 +79,13 @@ public class MyAutoController extends CarController {
 				turnRight();
 				break;
 		}
+	}
+
+	/**
+	 * Sets the target position
+	 * @param target the target position
+	 */
+	public void setTarget(Coordinate target) {
+		this.targetPosition = target;
 	}
 }
