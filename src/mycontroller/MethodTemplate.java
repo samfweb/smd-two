@@ -16,7 +16,7 @@ public abstract class MethodTemplate {
      * Constructor
      */
     public MethodTemplate() {
-        this.pathingStrategy = new ShortestPath();
+        this.pathingStrategy = new ShortestPathStrategy();
     }
 
     /**

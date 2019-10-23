@@ -1,17 +1,13 @@
 package mycontroller;
 
 import controller.CarController;
-import tiles.ParcelTrap;
 import world.Car;
 
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Queue;
 
 import tiles.MapTile;
 import utilities.Coordinate;
-import world.WorldSpatial;
 
 public class MyAutoController extends CarController {
 	private MethodTemplate method;
@@ -20,9 +16,9 @@ public class MyAutoController extends CarController {
 
 	private InternalMap mapConstructor = new InternalMap(mapWidth(), mapHeight());
 
-	private IPathConverter pathConverter = new CarPathConvertor();
+	private IPathAdapter pathConverter = new CarPathAdapter();
 
-	private MethodDecider methodDecider = new MethodDecider();
+	private MethodDeciderFacade methodDeciderFacade = new MethodDeciderFacade();
 
 	/**
 	 * Constructor
@@ -31,7 +27,7 @@ public class MyAutoController extends CarController {
 	public MyAutoController(Car car) {
 		super(car);
 		// always begin with the explore method
-		this.method = methodDecider.explore();
+		this.method = methodDeciderFacade.explore();
 
 	}
 
@@ -45,7 +41,7 @@ public class MyAutoController extends CarController {
 		//Updates the internal map with car surroundings
 		mapConstructor.updateViewedMap(currentView);
 		// checks our current method & updates our strategy if fitting
-		this.method = methodDecider.decideMethod(mapConstructor, this);
+		this.method = methodDeciderFacade.decideMethod(mapConstructor, this);
 		// Generates a path to the next position
 		Deque<Coordinate> path = method.generatePathing(new Coordinate(getPosition()), targetPosition, mapConstructor);
 		Coordinate currentPosition = path.pollLast();

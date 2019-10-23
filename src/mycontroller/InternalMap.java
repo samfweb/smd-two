@@ -27,10 +27,18 @@ public class InternalMap {
         this.mapWidth = mapWidth;
     }
 
+    /**
+     * getter for map height
+     * @return map height
+     */
     public int getMapHeight() {
         return mapHeight;
     }
 
+    /**
+     * getter for map width
+     * @return map width
+     */
     public int getMapWidth() {
         return mapWidth;
     }

@@ -10,14 +10,14 @@ import java.util.List;
 /**
  * Responsible for deciding which pathing method to use
  */
-public class MethodDecider {
+public class MethodDeciderFacade {
 
     private MethodFactory methodFactory;
 
     /**
      * Constructor
      */
-    public MethodDecider() {
+    public MethodDeciderFacade() {
         this.methodFactory = MethodFactory.getInstance();
     }
 

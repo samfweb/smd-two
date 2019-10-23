@@ -8,9 +8,9 @@ import utilities.Coordinate;
 import world.WorldSpatial;
 
 
-public class CarPathConvertor implements IPathConverter{
+public class CarPathAdapter implements IPathAdapter {
 
-    public CarPathConvertor() {
+    public CarPathAdapter() {
     }
 
     /**

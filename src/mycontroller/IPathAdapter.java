@@ -6,7 +6,7 @@ import world.WorldSpatial;
 
 import java.util.Queue;
 
-public interface IPathConverter {
+public interface IPathAdapter {
 
     /**
      *

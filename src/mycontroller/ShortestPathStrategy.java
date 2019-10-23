@@ -9,7 +9,7 @@ import java.util.*;
  * Directed point to point pathing strategy.
  * Uses BFS to calculate the shortest path.
  */
-public class ShortestPath implements IPathingStrategy {
+public class ShortestPathStrategy implements IPathingStrategy {
 
     //Records parent of a coordinate in path
     private HashMap<Coordinate, Coordinate> parentCoordinate;
@@ -17,7 +17,7 @@ public class ShortestPath implements IPathingStrategy {
     /**
      * Constructor
      */
-    public ShortestPath() {
+    public ShortestPathStrategy() {
         this.parentCoordinate = new HashMap<>();
     }
 
