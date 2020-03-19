@@ -34,3 +34,9 @@ Originally bundled with this assignment was a choice of two controllers.
 `controller.SimpleAutoController` attempts to solve a map naively by following nearby walls.
 
 The smarter `controller.MyAutoController` we developed is the default selected.
+
+#### Other Options
+
+Feel free to mess arouund with other options such as `Fuel`, `Health` and others.
+
+Updating `ParcelsNeeded` to a large number may cause issues if the map isn't large enough to fit them all.
