@@ -16,13 +16,13 @@ Open the project in your favourite Java editor/IDE.
 You may need to add some of the jars provided in lib.
 If using IntelliJ, you can do this through File -> Project Structure -> Modules -> Dependencies
 
-Generate the map and start the car's exploration by running the main method located in `src/swen30006/driving/desktop/DesktopLauncher,java`.
+Generate the map and start the car's exploration by running the main method at `src/swen30006/driving/desktop/DesktopLauncher.java`.
 
 ### Custom Settings
 You can easily modify basic properties in  `assets/Driving.Properties`.
 
 #### Map Choice
-Choose from one of the three pregenerated maps by uncommenting one of the three `Map=`lines.
+Choose from one of the three pregenerated maps by uncommenting one of the three `Map=` lines.
 
 Uncommenting multiple maps will result in an exception.
 
